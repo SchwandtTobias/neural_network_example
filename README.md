@@ -5,6 +5,7 @@ This repository is for some tests of neural networks and deep learning. As a sta
 # Libaries
 * https://keras.io/
 * https://github.com/fchollet/keras
+* https://github.com/tensorflow/tensorflow
 
 # Useful links
 
@@ -12,6 +13,7 @@ This repository is for some tests of neural networks and deep learning. As a sta
 * Online Visualizer - http://experiments.mostafa.io/public/ffbpann/
 * Colorization - http://tinyclouds.org/colorize/
 * Emoji suggestions for images - https://emojini.curalate.com/
+* Tensor Flow Playground - http://playground.tensorflow.org/
 
 ## Videos
 * Two Minute Papers Playlist - https://www.youtube.com/playlist?list=PLujxSBD-JXglGL3ERdDOhthD3jTlfudC2
