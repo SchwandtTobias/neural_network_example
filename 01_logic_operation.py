@@ -38,13 +38,28 @@ import numpy as np
 # The implementation of this function does double duty. If the _CalculateDerivative = True flag is passed in, the function instead calculates the 
 # derivative of the function, which is used in the error backpropogation step. 
 
-def SigmoidNonLinear(_Input, _CalculateDerivative = False):
-    if _CalculateDerivative == True:
-        return _Input * (1 - _Input)
-    
-    return 1 / (1 + np.exp(-_Input))
+def Linear(_Input, _CalculateDerivative = False):
+  if _CalculateDerivative == True:
+    return 1
+  
+  return _Input
 
 
+def Sigmoid(_Input, _CalculateDerivative = False):
+  if _CalculateDerivative == True:
+    return _Input * (1 - _Input)
+  
+  return 1 / (1 + np.exp(-_Input))
+
+
+def TanH(_Input, _CalculateDerivative = False):
+  if _CalculateDerivative == True:
+    return 1 - pow(_Input, 2)    # Alternative: 1 - _Input ** 2
+
+  return np.tanh(_Input)
+
+
+ActivationFunction = TanH
 
 
 # In[2]: Input data
@@ -84,17 +99,17 @@ Synapses1 = 2 * np.random.random((4,1)) - 1  # 4x2 matrix of weights. (4 nodes x
 for IndexOfLoop in range(60000):  
     # Calculate forward through the network.
     Layer0 = InputData
-    Layer1 = SigmoidNonLinear(np.dot(Layer0, Synapses0))
-    Layer2 = SigmoidNonLinear(np.dot(Layer1, Synapses1))
+    Layer1 = ActivationFunction(np.dot(Layer0, Synapses0))
+    Layer2 = ActivationFunction(np.dot(Layer1, Synapses1))
     
     # Back propagation of errors using the chain rule. 
     ErrorOfLayer2 = OutputData - Layer2
 
-    DeltaOfLayer2 = ErrorOfLayer2 * SigmoidNonLinear(Layer2, _CalculateDerivative = True)
+    DeltaOfLayer2 = ErrorOfLayer2 * ActivationFunction(Layer2, _CalculateDerivative = True)
     
     ErrorOfLayer1 = DeltaOfLayer2.dot(Synapses1.T)
     
-    DeltaOfLayer1 = ErrorOfLayer1 * SigmoidNonLinear(Layer1, _CalculateDerivative = True)
+    DeltaOfLayer1 = ErrorOfLayer1 * ActivationFunction(Layer1, _CalculateDerivative = True)
     
     # Update weights (no learning rate term)
     Synapses1 += Layer1.T.dot(DeltaOfLayer2)
@@ -113,8 +128,8 @@ print (Layer2)
 # In[7]: Using the trained AI
 # See now the result of the AI after training
 Input  = np.array([[0,1,1]]);
-Layer1 = SigmoidNonLinear(np.dot(Input, Synapses0))
-Layer2 = SigmoidNonLinear(np.dot(Layer1, Synapses1))
+Layer1 = ActivationFunction(np.dot(Input, Synapses0))
+Layer2 = ActivationFunction(np.dot(Layer1, Synapses1))
 
 print ("Output of trained AI")
 print (Layer2)
