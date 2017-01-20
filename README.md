@@ -9,6 +9,10 @@ This repository is for some tests of neural networks and deep learning. As a sta
 
 # Useful links
 
+## Articles
+* http://frnsys.com/ai_notes/machine_learning/neural_nets.html
+* http://www.neuronalesnetz.de/ (German)
+
 ## Online tools
 * Online Visualizer - http://experiments.mostafa.io/public/ffbpann/
 * Colorization - http://tinyclouds.org/colorize/
