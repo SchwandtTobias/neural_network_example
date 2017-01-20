@@ -76,7 +76,8 @@ np.random.seed(1)
 # is no bias term feeding the output layer in this example. The weights are initially generated randomly because optimization tends not 
 # to work well when all the weights start at the same value.
 Synapses0 = 2 * np.random.random((3,4)) - 1  # 3x4 matrix of weights ((2 inputs + 1 bias) x 4 nodes in the hidden layer)
-Synapses1 = 2 * np.random.random((4,1)) - 1  # 4x2 matrix of weights. (4 nodes x 1 output)
+Synapses1 = 2 * np.random.random((4,2)) - 1  # 4x2 matrix of weights. (4 nodes x 2 hidden layers)
+Synapses2 = 2 * np.random.random((2,1)) - 1  # 2x1 matrix of weights. (2 nodes x 1 output)
 
 
 # In[6]: Main loop / training step
@@ -86,10 +87,15 @@ for IndexOfLoop in range(60000):
     Layer0 = InputData
     Layer1 = SigmoidNonLinear(np.dot(Layer0, Synapses0))
     Layer2 = SigmoidNonLinear(np.dot(Layer1, Synapses1))
+    Layer3 = SigmoidNonLinear(np.dot(Layer2, Synapses2))
     
     # Back propagation of errors using the chain rule. 
-    ErrorOfLayer2 = OutputData - Layer2
+    ErrorOfLayer3 = OutputData - Layer3
+        
+    DeltaOfLayer3 = ErrorOfLayer3 * SigmoidNonLinear(Layer3, _CalculateDerivative = True)
 
+    ErrorOfLayer2 = DeltaOfLayer3.dot(Synapses2.T)
+        
     DeltaOfLayer2 = ErrorOfLayer2 * SigmoidNonLinear(Layer2, _CalculateDerivative = True)
     
     ErrorOfLayer1 = DeltaOfLayer2.dot(Synapses1.T)
@@ -97,17 +103,19 @@ for IndexOfLoop in range(60000):
     DeltaOfLayer1 = ErrorOfLayer1 * SigmoidNonLinear(Layer1, _CalculateDerivative = True)
     
     # Update weights (no learning rate term)
+    Synapses2 += Layer2.T.dot(DeltaOfLayer3)
     Synapses1 += Layer1.T.dot(DeltaOfLayer2)
     Synapses0 += Layer0.T.dot(DeltaOfLayer1)
 
     if(IndexOfLoop % 10000) == 0:   # Only print the error every 10000 steps, to save time and limit the amount of output. 
         # print("Error L1: " + str(np.mean(np.abs(ErrorOfLayer1))) + " (" + str(np.mean(DeltaOfLayer1)) + ")")
-        print("Error L2: " + str(np.mean(np.abs(ErrorOfLayer2))) + " (" + str(np.mean(DeltaOfLayer2)) + ")")
+        # print("Error L2: " + str(np.mean(np.abs(ErrorOfLayer2))) + " (" + str(np.mean(DeltaOfLayer2)) + ")")
+        print("Error L3: " + str(np.mean(np.abs(ErrorOfLayer3))) + " (" + str(np.mean(DeltaOfLayer3)) + ")")
 
 # See how the final output closely approximates the true output [0, 1, 1, 0]. If you increase the number of interations in the 
 # training loop the final output will be even closer. 
 print ("Output after training")
-print (Layer2)
+print (Layer3)
 
 
 # In[7]: Using the trained AI
@@ -115,6 +123,7 @@ print (Layer2)
 Input  = np.array([[0,1,1]]);
 Layer1 = SigmoidNonLinear(np.dot(Input, Synapses0))
 Layer2 = SigmoidNonLinear(np.dot(Layer1, Synapses1))
+Layer3 = SigmoidNonLinear(np.dot(Layer2, Synapses2))
 
 print ("Output of trained AI")
-print (Layer2)
+print (Layer3)
