@@ -18,6 +18,7 @@ This repository is for some tests of neural networks and deep learning. As a sta
 * Colorization - http://tinyclouds.org/colorize/
 * Emoji suggestions for images - https://emojini.curalate.com/
 * Tensor Flow Playground - http://playground.tensorflow.org/
+* ConvnetJS demo - http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html
 
 ## Videos
 * Two Minute Papers Playlist - https://www.youtube.com/playlist?list=PLujxSBD-JXglGL3ERdDOhthD3jTlfudC2
