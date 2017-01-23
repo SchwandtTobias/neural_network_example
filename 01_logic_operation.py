@@ -47,7 +47,7 @@ def Linear(_Input, _CalculateDerivative = False):
 
 def Sigmoid(_Input, _CalculateDerivative = False):
   if _CalculateDerivative == True:
-    return _Input * (1 - _Input)
+  	return np.exp(_Input) / (np.exp(_Input) + 1) ** 2
   
   return 1 / (1 + np.exp(-_Input))
 
@@ -59,7 +59,7 @@ def TanH(_Input, _CalculateDerivative = False):
   return np.tanh(_Input)
 
 
-ActivationFunction = TanH
+ActivationFunction = Sigmoid
 
 
 # In[2]: Input data
@@ -105,11 +105,11 @@ for IndexOfLoop in range(60000):
     # Back propagation of errors using the chain rule. 
     ErrorOfLayer2 = OutputData - Layer2
 
-    DeltaOfLayer2 = ErrorOfLayer2 * ActivationFunction(Layer2, _CalculateDerivative = True)
+    DeltaOfLayer2 = ErrorOfLayer2 * ActivationFunction(np.dot(Layer1, Synapses1), _CalculateDerivative = True)
     
     ErrorOfLayer1 = DeltaOfLayer2.dot(Synapses1.T)
     
-    DeltaOfLayer1 = ErrorOfLayer1 * ActivationFunction(Layer1, _CalculateDerivative = True)
+    DeltaOfLayer1 = ErrorOfLayer1 * ActivationFunction(np.dot(Layer0, Synapses0), _CalculateDerivative = True)
     
     # Update weights (no learning rate term)
     Synapses1 += Layer1.T.dot(DeltaOfLayer2)
