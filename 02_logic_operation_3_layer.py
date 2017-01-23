@@ -47,14 +47,14 @@ def Linear(_Input, _CalculateDerivative = False):
 
 def Sigmoid(_Input, _CalculateDerivative = False):
   if _CalculateDerivative == True:
-    return _Input * (1 - _Input)
+    return np.exp(-_Input) / (np.exp(-_Input) + 1) ** 2
   
   return 1 / (1 + np.exp(-_Input))
 
 
 def TanH(_Input, _CalculateDerivative = False):
   if _CalculateDerivative == True:
-    return 1 - pow(_Input, 2)    # Alternative: 1 - _Input ** 2
+    return 1 - np.tanh(_Input) ** 2
 
   return np.tanh(_Input)
 
